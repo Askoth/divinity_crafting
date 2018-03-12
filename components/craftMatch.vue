@@ -3,13 +3,11 @@
         <craftDetails v-bind:item="item"></craftDetails>
 
         <ul v-if="hasSubcraft" class="sub-craft-list">
-            <craftMatch v-if="hasSubcraftPart1"
+            <craftMatch
+                v-for="(part, index) in subCraft"
                 class="sub-craft"
-                v-bind:item="subcraftPart1"></craftMatch>
-
-            <craftMatch v-if="hasSubcraftPart2"
-                class="sub-craft"
-                v-bind:item="subcraftPart2"></craftMatch>
+                v-bind:key="index"
+                v-bind:item="part"></craftMatch>
         </ul>
     </li>
 </template>
@@ -25,20 +23,8 @@ export default {
         subCraft () {
             return this.item.subCraft
         },
-        hasSubcraftPart1 () {
-            return this.subCraft && typeof this.subCraft.part1 != 'undefined'
-        },
-        hasSubcraftPart2 () {
-            return this.subCraft && typeof this.subCraft.part2 != 'undefined'
-        },
         hasSubcraft () {
-            return this.hasSubcraftPart1 || this.hasSubcraftPart2
-        },
-        subcraftPart1 () {
-            return this.$store.getters.recipe({name: this.subCraft.part1})
-        },
-        subcraftPart2 () {
-            return this.$store.getters.recipe({name: this.subCraft.part2})
+            return this.subCraft && this.subCraft.length > 0
         }
     },
     components: {
