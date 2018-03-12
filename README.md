@@ -1,29 +1,28 @@
-#DOS: Enhanced Edition Crafting Table
+# divinity_crafting_trees
 
-###v0.4
+> Divinity Original Sin Crafting list os all material possibilities to craft what you want
 
-- Cleaned up recipes (Adventurer's, wands)
-- Minor upkeep
-- Moved Github buttons
-- Expanded tips and tricks, link to /u/lirili's guide
+Thanks [sethxd](https://github.com/sethxd) for [divinity_crafting](https://github.com/sethxd/divinity_crafting)
 
-###v0.3
+Maybe it was just me but when I started to go over the crafting list on thing needs another crafted and so on.... In the end I was lost with so many materials I would have to keep in mind.
 
-- Added filter control for recipe type
-- Locked column widths
-- Consolidated skill books and removed poisoned food recipes
+I find this also a fun exercise to learn nuxtjs. Let's see how it goes.
 
-###v0.2
+## Build Setup
 
-- Cleaned up and consolidated a ton of recipes
-- Added light/dark scheme
-- Added README.md
+``` bash
+# install dependencies
+$ npm install # Or yarn install
 
-###v0.1
+# serve with hot reload at localhost:3000
+$ npm run dev
 
-- Initial dump of recipes and table setup
+# build for production and launch server
+$ npm run build
+$ npm start
 
-This table is an attempt to catalog all the crafting recipes in Divinity Original Sin: Enhanced Edition, and make it easy for users to sort and filter them. It's built using the following resources:
+# generate static project
+$ npm run generate
+```
 
-- [Jets.js](https://nexts.github.io/Jets.js/)
-- [bootstrap-table](http://bootstrap-table.wenzhixin.net.cn/)
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
