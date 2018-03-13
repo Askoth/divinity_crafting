@@ -66,13 +66,9 @@ const createStore = () => {
         actions: {
             nuxtServerInit ({ commit }, { req }) {
 
-                let query = JSON.parse(JSON.stringify(this.$router.currentRoute.query));
+                // cannot rely on this action to update store as
+                // in github it's a static page
 
-                // const {query} = url.parse(req.url, true);
-
-                if (query.table == 1) {
-                    commit('updateTableView', {value: true})
-                }
             },
             updateSearch ({commit}, {value}) {
                 commit('updateSearch', {value})

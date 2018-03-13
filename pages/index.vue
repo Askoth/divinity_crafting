@@ -50,6 +50,12 @@ export default {
             return this.$store.getters.urlTableQuery
         }
     },
+    mounted () {
+        const {table} = this.$router.currentRoute.query;
+        const isTableEnabled = table == 1 ? true : false;
+
+        this.tableView = isTableEnabled;
+    },
     watch: {
         urlTableQuery (newValue, oldValue) {
             let query = JSON.parse(JSON.stringify(this.$router.currentRoute.query));
