@@ -1,65 +1,84 @@
 import Vuex from 'vuex'
 import recipeMap from './recipeList/index.js'
+import url from 'url'
 
 const createStore = () => {
     return new Vuex.Store({
         state: {
-            search: ''
+            search: '',
+            tableView: false
         },
         mutations: {
             updateSearch (state, {value}) {
                 state.search = value
+            },
+            updateTableView (state, {value}) {
+                state.tableView = value
             }
         },
         getters: {
             recipeList ({search}) {
-                const stringToMatch = search.toLowerCase(),
-                    limit = 50;
+                return function ({limit = 50} = {}) {
+                    const stringToMatch = search.toLowerCase();
 
-                let result = [],
-                    pages = 0;
+                    let result = [],
+                        pages = 0;
 
-                Array.from(recipeMap.keys()).forEach((key) => {
-                    let value = recipeMap.get(key);
-                    const itemName = key.toLowerCase();
-                    if (itemName.indexOf(stringToMatch) != -1) {
-                        const {recipeType, skill, level, part1, part2, subCraft} = value;
-                        result.push({
-                            name: itemName,
-                            recipeType,
-                            skill,
-                            level,
-                            part1,
-                            part2,
-                            subCraft
-                        })
+                    Array.from(recipeMap.keys()).forEach((key) => {
+                        let value = recipeMap.get(key);
+                        const itemName = key.toLowerCase();
+                        if (itemName.indexOf(stringToMatch) != -1) {
+                            const {recipeType, skill, level, part1, part2, subCraft} = value;
+                            result.push({
+                                name: itemName,
+                                recipeType,
+                                skill,
+                                level,
+                                part1,
+                                part2,
+                                subCraft
+                            })
+                        }
+                    })
+
+                    if (limit != false && result.length > limit) {
+                        pages = Math.ceil(result.length / limit);
+                        result.length = limit;
                     }
-                })
 
-                if (result.length > limit) {
-                    pages = Math.ceil(result.length / limit);
-                    result.length = limit;
-                }
-
-                return {
-                    pages,
-                    data: result
+                    return {
+                        pages,
+                        data: result
+                    }
                 }
             },
             recipe () {
                 return function ({name}) {
                     return Object.assign({name}, recipeMap.get(name));
                 }
+            },
+            urlTableQuery (state) {
+                return {
+                    table: state.tableView ? 1 : 0
+                }
             }
         },
         actions: {
             nuxtServerInit ({ commit }, { req }) {
-                // if (req.session.user) {
-                //     commit('user', req.session.user)
-                // }
+
+                let query = JSON.parse(JSON.stringify(this.$router.currentRoute.query));
+
+                // const {query} = url.parse(req.url, true);
+
+                if (query.table == 1) {
+                    commit('updateTableView', {value: true})
+                }
             },
             updateSearch ({commit}, {value}) {
                 commit('updateSearch', {value})
+            },
+            updateTableView ({commit}, {value}) {
+                commit('updateTableView', {value})
             }
         }
     })

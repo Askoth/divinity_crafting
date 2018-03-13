@@ -4,11 +4,17 @@
         Divinity Crafting Trees
     </h1>
 
+    <label>Table View
+        <input type="checkbox" v-model="tableView">
+    </label>
+
     <searchFieldComp class="search-field"></searchFieldComp>
 
     <div class="pages">Pages: {{craftMatchedList.pages}}</div>
 
-    <ul>
+    <tableView v-if="tableView"></tableView>
+
+    <ul v-else>
         <craftMatch
             class="crafted-item"
             v-for="(item, index) in craftMatchedList.data"
@@ -25,16 +31,38 @@
 <script>
 import searchFieldComp from '~/components/searchField.vue'
 import craftMatch from '~/components/craftMatch.vue'
+import tableView from '~/components/tableView.vue'
 
 export default {
     computed: {
         craftMatchedList () {
-            return this.$store.getters.recipeList
+            return this.$store.getters.recipeList()
+        },
+        tableView: {
+            get () {
+                return this.$store.state.tableView
+            },
+            set (newValue) {
+                this.$store.dispatch('updateTableView', {value: newValue})
+            }
+        },
+        urlTableQuery () {
+            return this.$store.getters.urlTableQuery
+        }
+    },
+    watch: {
+        urlTableQuery (newValue, oldValue) {
+            let query = JSON.parse(JSON.stringify(this.$router.currentRoute.query));
+
+            Object.assign(query, newValue)
+
+            this.$router.push( { query } );
         }
     },
     components: {
         searchFieldComp,
-        craftMatch
+        craftMatch,
+        tableView
     }
 }
 </script>
