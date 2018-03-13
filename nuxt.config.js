@@ -2,12 +2,12 @@
 // only add `router.base = '/<repository-name>/'` if `DEPLOY_ENV` is `GH_PAGES`
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   router: {
-    base: '/<repository-name>/'
+    base: '/divinity_crafting_trees/'
   }
 } : {}
 
 
-module.exports = {
+let config = {
   /*
   ** Headers of the page
   */
@@ -48,4 +48,6 @@ module.exports = {
     dir: 'docs'
   },
   ...routerBase
-}
+};
+
+module.exports = config;
